@@ -2,9 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: 'windows95';
+  src: url('/fonts/Windows95.ttf') format('truetype');
+}
+
 * {
-  font-family: cursive;
-  font-weight: 400;
+  font-family: 'windows95';
+  font-size: large;
+  letter-spacing: 0.05em;
 }
 
 :root {

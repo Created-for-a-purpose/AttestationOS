@@ -1,4 +1,4 @@
-import logo from '/public/os.png'
+import logo from '/os.png'
 import { FaWifi } from "react-icons/fa";
 import { Navbar, NavbarBrand, NavbarContent, NavbarItem, DateInput } from "@nextui-org/react";
 import { parseZonedDateTime } from "@internationalized/date";
@@ -8,7 +8,7 @@ function NavbarWrapper() {
         <Navbar className='bg-black text-white' height='2rem' maxWidth='2xl'>
             <NavbarBrand>
                 <img src={logo} alt="logo" className="hover:drop-shadow-glow w-7 h-6 mr-3" />
-                <p className="font-bold text-inherit">AttestationOS</p>
+                <p className="font-bold tracking-wider text-inherit text-lg hover:drop-shadow-glow">AttestationOS</p>
             </NavbarBrand>
             <NavbarContent className="hidden sm:flex gap-7" justify="center">
                 <NavbarItem>File</NavbarItem>
