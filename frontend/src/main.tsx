@@ -1,13 +1,16 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { NextUIProvider } from '@nextui-org/react'
+import { WalletProvider } from './context/WalletContext.tsx'
 import App from './App.tsx'
 import './index.css'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <NextUIProvider>
-      <App />
+      <WalletProvider>
+        <App />
+      </WalletProvider>
     </NextUIProvider>
   </React.StrictMode>,
 )
