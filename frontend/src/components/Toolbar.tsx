@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 function Toolbar({ name }: { name: string }) {
     return (
-        <div className="flex justify-between items-center bg-cream border-black border-2 p-1 h-6 font-sans w-[95%] mt-1 ml-[2%]">
+        <div className="flex justify-between items-center bg-cream border-black border-2 p-1 h-6 font-sans w-[95%] mt-4 ml-[2%]">
             <div className="flex items-center">
                 <span className="text-sm font-bold p-1">{name}</span>
             </div>
