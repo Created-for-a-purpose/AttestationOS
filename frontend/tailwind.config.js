@@ -11,6 +11,9 @@ export default {
     extend: {
       dropShadow: {
         'glow': '0 0 0.8em #61dafbaa',
+      },
+      colors: {
+        'cream': '#FAF5EA',
       }
     },
   },
