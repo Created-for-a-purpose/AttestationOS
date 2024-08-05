@@ -41,7 +41,7 @@ export const tools = [
         name: "Notary",
         type: "Notary",
         image: notary,
-        dimensions: "p-4 w-20 h-20",
+        dimensions: "w-10 h-10",
         url: ""
     }
 ]

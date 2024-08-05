@@ -7,7 +7,7 @@ function Home() {
     return (
         <>
             <NavbarWrapper />
-            <div className="grid grid-cols-2 bottom-auto m-10 gap-20 fixed">
+            <div className="grid grid-cols-2 bottom-auto m-10 fixed">
                 {tools.map((tool) => (
                     <Tool key={tool.id} name={tool.name} image={tool.image} url={tool.url}
                         dimensions={tool.dimensions} />
