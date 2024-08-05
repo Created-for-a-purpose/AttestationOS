@@ -1,5 +1,5 @@
 import logo from '/os.png'
-import { FaWifi } from "react-icons/fa";
+import Connect from './Connect';
 import { Navbar, NavbarBrand, NavbarContent, NavbarItem, DateInput } from "@nextui-org/react";
 import { parseZonedDateTime } from "@internationalized/date";
 
@@ -17,7 +17,7 @@ function NavbarWrapper() {
             </NavbarContent>
             <NavbarContent justify='end' className='gap-3'>
                 <NavbarItem>
-                    <FaWifi className='hover:cursor-pointer' onClick={() => null} />
+                    <Connect />
                 </NavbarItem>
                 <NavbarItem>
                     <DateInput
