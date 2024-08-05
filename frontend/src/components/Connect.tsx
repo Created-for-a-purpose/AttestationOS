@@ -1,5 +1,6 @@
 import { useConnect } from '../context/WalletContext';
 import { FaWifi } from "react-icons/fa";
+import { CiWifiOff } from "react-icons/ci";
 import { User, Tooltip } from "@nextui-org/react";
 
 function Connect() {
@@ -9,7 +10,7 @@ function Connect() {
         <>
             {
                 connected === false ?
-                    <FaWifi className='hover:cursor-pointer' onClick={connect} />
+                    <CiWifiOff className='text-xl hover:cursor-pointer' onClick={connect} />
                     : (
                         <Tooltip
                             classNames={{

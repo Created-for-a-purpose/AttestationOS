@@ -6,35 +6,35 @@ export const tools = [
         name: "Market",
         type: "Marketplace",
         image: mart,
-        url: ""
+        url: "/mart"
     },
     {
         id: 2,
         name: "FHE Vote",
         type: "Voting",
         image: vote,
-        url: ""
+        url: "/vote"
     },
     {
         id: 3,
         name: "CamAttest",
         type: "Camera",
         image: cam,
-        url: ""
+        url: "/cam"
     },
     {
         id: 4,
         name: "Photogram",
         type: "Social",
         image: pc,
-        url: ""
+        url: "/social"
     },
     {
         id: 5,
         name: "DocSign",
         type: "Document",
         image: doc,
-        url: ""
+        url: "/doc"
     },
     {
         id: 6,
@@ -42,6 +42,6 @@ export const tools = [
         type: "Notary",
         image: notary,
         dimensions: "w-10 h-10",
-        url: ""
+        url: "/notary"
     }
 ]
