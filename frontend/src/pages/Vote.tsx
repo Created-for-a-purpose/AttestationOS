@@ -63,7 +63,7 @@ function Vote() {
             <NavbarWrapper />
             <Toolbar name="FHE-Vote" />
             <div className="bg-gray-400 fixed w-[95%] border-2 p-2 border-black ml-[2%] h-[80%]">
-                <h1 className="font-bold text-lg text-center m-1">Public voting</h1>
+                <h1 className="font-bold text-lg text-center m-1">Vote privately 🤫</h1>
                 <div className="mt-[3rem] w-full flex flex-wrap justify-center items-center gap-10">
                     {
                         tools.map((project, index) => (
