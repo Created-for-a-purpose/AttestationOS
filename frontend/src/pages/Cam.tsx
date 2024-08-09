@@ -3,6 +3,7 @@ import NavbarWrapper from "../components/Navbar";
 import Toolbar from "../components/Toolbar";
 import { Button } from "@nextui-org/react";
 import { ethers } from "ethers";
+import { useConnect } from "../context/WalletContext";
 
 function Cam() {
     const videoRef = useRef<HTMLVideoElement>(null);
@@ -11,6 +12,7 @@ function Cam() {
     const [image, setImage] = useState<string>('');
     const [hash, setHash] = useState<string>('');
     const [uid, setUid] = useState<string>('');
+    const { address } = useConnect();
 
     const startCamera = () => {
         navigator.mediaDevices.getUserMedia({ video: true })
@@ -26,7 +28,16 @@ function Cam() {
             });
     }
 
-    const clickPicture = () => {
+    const clickPicture = async () => {
+        const response = await fetch('http://localhost:8080/start', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ user: address })
+        })
+        const auth = await response.json().then((data) => data.auth);
+
         if (videoRef.current && canvasRef.current) {
             const video = videoRef.current;
             const canvas = canvasRef.current;
@@ -39,6 +50,14 @@ function Cam() {
             setImage(data);
             const hash = ethers.keccak256(ethers.toUtf8Bytes(data));
             setHash(hash);
+            const response = await fetch('http://localhost:8080/attest', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ auth, image: hash, recipient: address })
+            })
+            await response.json().then((data) => setUid(data.uid));
         }
     }
 
@@ -60,7 +79,11 @@ function Cam() {
                                 : <Button onClick={startCamera} color="secondary" className="m-4">Start Camera</Button>
                         }
                         {hash && <p className="p-2 font-bold">Image hash: {hash.slice(0, 10) + '...' + hash.slice(-10)}</p>}
-                        {uid && <p className="p-2 font-bold">EAS: {`https://base-sepolia.easscan.org/attestation/view/${uid}`}</p>}
+                        {uid &&
+                            <a className="p-2 font-bold cursor-pointer"
+                                href={`https://base-sepolia.easscan.org/attestation/view/${uid}`}
+                                target="_blank"
+                            >EAS: {uid.slice(0, 5) + '...' + uid.slice(-5)}</a>}
                     </div>
                 </div>
             </div>

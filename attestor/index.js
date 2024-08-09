@@ -22,8 +22,9 @@ app.post("/start", async (req, res) => {
     const { user } = req.body
     const auth = Math.random().toString().slice(2, 8)
     const contract = new ethers.Contract(CAM_CONTRACT_ADDRESS, CAM_CONTRACT_ABI, signer)
-    const hash = await contract.keccak(auth)
-    await contract.setAuth(hash, user)
+    const authHash = await contract.keccak(auth)
+    const tx = await contract.setAuth(authHash, user)
+    await tx.wait()
     res.send({ auth })
 })
 
@@ -31,10 +32,9 @@ app.post("/attest", async (req, res) => {
     const { auth, image, recipient } = req.body
     const eas = new EAS(CAM_EAS);
     eas.connect(signer);
-    const schemaEncoder = new SchemaEncoder("bytes encryptedVote")
-    const bytes32 = ethers.encodeBytes32String(image)
+    const schemaEncoder = new SchemaEncoder("bytes32 imageHash")
     const encodedData = schemaEncoder.encodeData([
-        { name: "imageHash", value: bytes32, type: "bytes32" }
+        { name: "imageHash", value: image, type: "bytes32" }
     ])
     const tx = await eas.attest({
         schema: CAM_SCHEMA,
@@ -47,8 +47,13 @@ app.post("/attest", async (req, res) => {
     });
     const uid = await tx.wait();
     const contract = new ethers.Contract(CAM_CONTRACT_ADDRESS, CAM_CONTRACT_ABI, signer)
-    const bytess = ethers.encodeBytes32String(uid)
-    await contract.post(image, auth, bytess)
+    const nonce = await provider.getTransactionCount(signer.address)
+    console.log(auth, typeof auth)
+    const { hash } = await contract.post(image, auth, uid, {
+        gasLimit: 1000000,
+        nonce: nonce + 1
+    })
+    console.log(hash)
     res.send({ uid })
 })
 
