@@ -61,6 +61,15 @@ function Cam() {
         }
     }
 
+    const downloadImage = () => {
+        const link = document.createElement('a');
+        link.href = image;
+        link.download = 'captured-image.png';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
+
     return (
         <>
             <NavbarWrapper />
@@ -84,6 +93,7 @@ function Cam() {
                                 href={`https://base-sepolia.easscan.org/attestation/view/${uid}`}
                                 target="_blank"
                             >EAS: {uid.slice(0, 5) + '...' + uid.slice(-5)}</a>}
+                        {image && <Button onClick={downloadImage} color="secondary" className="m-4">Download Image</Button>}
                     </div>
                 </div>
             </div>
