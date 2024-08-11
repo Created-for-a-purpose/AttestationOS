@@ -1,0 +1,23 @@
+{
+    "manifest_version": 3,
+    "name": "AttestationOS",
+    "description": "AttestationOS browser extension helps you prove your social media presence.",
+    "version": "1.0",
+    "permissions": [
+        "debugger",
+        "tabs",
+        "downloads",
+        "webNavigation"
+    ],
+    "devtools_page": "devtools.html",
+    "host_permissions": [
+        "<all_urls>"
+    ],
+    "background": {
+        "service_worker": "background.js"
+    },
+    "action": {
+        "default_icon": "os.png",
+        "default_popup": "os.html"
+    }
+}
