@@ -1,7 +1,7 @@
 const express = require("express")
 const cors = require("cors")
 const { ethers } = require("ethers")
-const { CAM_CONTRACT_ABI, CAM_CONTRACT_ADDRESS, CAM_EAS, CAM_SCHEMA } = require("./constants.js")
+const { CAM_CONTRACT_ABI, CAM_CONTRACT_ADDRESS, CAM_EAS, CAM_SCHEMA, NOTARY_SCHEMA, ATTESTOR_PUBLIC_KEY } = require("./constants.js")
 const { EAS, SchemaEncoder } = require("@ethereum-attestation-service/eas-sdk")
 const dotenv = require("dotenv")
 dotenv.config()
@@ -54,6 +54,36 @@ app.post("/attest", async (req, res) => {
         nonce: nonce + 1
     })
     console.log(hash)
+    res.send({ uid })
+})
+
+app.post("/notarize", async (req, res) => {
+    const { message, signature, timestamp, address } = req.body;
+    // verify the signature
+    const recoveredAddress = ethers.verifyMessage(message, signature)
+    if (recoveredAddress !== ATTESTOR_PUBLIC_KEY) {
+        return res.status(400).send({ error: "Invalid signature" })
+    }
+
+    const eas = new EAS(CAM_EAS);
+    eas.connect(signer);
+    const schemaEncoder = new SchemaEncoder("string message, string signature, uint256 timestamp")
+    const encodedData = schemaEncoder.encodeData([
+        { name: "message", value: message, type: "string" },
+        { name: "signature", value: signature, type: "string" },
+        { name: "timestamp", value: timestamp, type: "uint256" }
+    ])
+    const expirationTime = BigInt(Math.floor(Date.now() / 1000)+86400)
+    const transaction = await eas.attest({
+        schema: NOTARY_SCHEMA,
+        data: {
+            recipient: address,
+            expirationTime,
+            revocable: false,
+            data: encodedData
+        }
+    })
+    const uid = await transaction.wait()
     res.send({ uid })
 })
 
